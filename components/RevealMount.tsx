@@ -8,7 +8,7 @@ export default function RevealMount() {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) {
       document
-        .querySelectorAll('.reveal, .reveal-stagger, .hero-word')
+        .querySelectorAll('.reveal, .reveal-stagger, .hero-word, .hero-line')
         .forEach((el) => el.classList.add('is-in'));
       return;
     }
@@ -25,14 +25,16 @@ export default function RevealMount() {
       { threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
     );
 
-    const targets = document.querySelectorAll('.reveal, .reveal-stagger, .hero-word');
+    const targets = document.querySelectorAll(
+      '.reveal, .reveal-stagger, .hero-word, .hero-line',
+    );
     targets.forEach((el) => observer.observe(el));
 
     // Hero words fire immediately on first paint
     requestAnimationFrame(() => {
-      document.querySelectorAll('.hero-on-load .hero-word').forEach((el) => {
-        el.classList.add('is-in');
-      });
+      document
+        .querySelectorAll('.hero-on-load .hero-word, .hero-on-load .hero-line')
+        .forEach((el) => el.classList.add('is-in'));
     });
 
     return () => observer.disconnect();

@@ -10,6 +10,7 @@ import EmailCapture from '@/components/EmailCapture';
 import FinalCTASection from '@/components/FinalCTASection';
 import KickerWithLines from '@/components/KickerWithLines';
 import HalftonePattern from '@/components/HalftonePattern';
+import MediaImage from '@/components/MediaImage';
 
 export const metadata: Metadata = {
   title: 'Skilled Game Basketball — Be Better. Be Different.',
@@ -22,22 +23,18 @@ export default function HomePage() {
     <>
       <PageHero
         kicker="Phoenix, AZ · 17 Countries"
-        headline={
+        headline={[
+          'Be Better.',
           <>
-            <span className="hero-word hero-word--d1">
-              <span>Be Better.</span>
-            </span>
-            <br />
-            <span className="hero-word hero-word--d2">
-              <span>Be Different.</span>
-            </span>
-          </>
-        }
-        sub="NBA Skills Trainer Joshua Villarreal. 11 years. 20+ NBA pros. Camps in 17 countries. Train with me anywhere on Earth — or fly to Phoenix and train at The PHHacility."
+            Be <em>Different.</em>
+          </>,
+        ]}
+        sub="NBA Skills Trainer Joshua Villarreal. 11 years. 20+ NBA pros. Camps in 17 countries. Train anywhere on Earth — or fly to Phoenix and train at The PHHacility."
         primaryCta={{ href: '/train', label: 'Train With Me →' }}
         secondaryCta={{ href: '#paths', label: 'Watch Highlights ↓' }}
         faithMark
         halftoneCorners={['top-left']}
+        bgSeed="sg-home-hero-9"
       />
 
       {/* NBA Roster Marquee */}
@@ -56,7 +53,7 @@ export default function HomePage() {
         ]}
       />
 
-      {/* The Three Paths */}
+      {/* The Three Paths — now with imagery */}
       <section id="paths" className="section surface-ink">
         <div className="wrap">
           <SectionHeader
@@ -64,80 +61,81 @@ export default function HomePage() {
             headline={<>Pick Your Path.</>}
             sub="Three ways to work. Same method. Same standard. Different on-ramps."
           />
-          <div className="paths-grid">
-            <PathCard
-              number="01"
-              eyebrow="In Phoenix"
-              title="Train In Phoenix"
-              body="Memberships, packages, drop-ins. Train weekly at The PHHacility with Joshua and the Skilled Game team."
-              href="/train"
-              cta="Phoenix Training →"
-            />
-            <PathCard
-              number="02"
-              eyebrow="Fly To Me"
-              title="Fly To Me"
-              body="The Travelers Program. Come to Phoenix from anywhere on Earth. Train one-on-one for 3, 5, or 7 days."
-              href="/travelers"
-              cta="Travelers Program →"
-            />
-            <PathCard
-              number="03"
-              eyebrow="Anywhere"
-              title="Train Anywhere"
-              body="The Skilled Game App. Weekly programming, drill library, film breakdowns, global community. From anywhere."
-              href="/app"
-              cta="Skilled Game App →"
-            />
+          <div className="paths-grid paths-grid--with-img">
+            {[
+              {
+                num: '01',
+                eyebrow: 'In Phoenix',
+                title: 'Train In Phoenix',
+                body: 'Memberships, packages, drop-ins. Train weekly at The PHHacility with Joshua and the Skilled Game team.',
+                href: '/train',
+                cta: 'Phoenix Training →',
+                seed: 'sg-path-phx',
+              },
+              {
+                num: '02',
+                eyebrow: 'Fly To Me',
+                title: 'Fly To Me',
+                body: 'The Travelers Program. Come to Phoenix from anywhere on Earth. Train one-on-one for 3, 5, or 7 days.',
+                href: '/travelers',
+                cta: 'Travelers Program →',
+                seed: 'sg-path-trv',
+              },
+              {
+                num: '03',
+                eyebrow: 'Anywhere',
+                title: 'Train Anywhere',
+                body: 'The Skilled Game App. Weekly programming, drill library, film breakdowns, global community.',
+                href: '/app',
+                cta: 'Skilled Game App →',
+                seed: 'sg-path-app',
+              },
+            ].map((p) => (
+              <Link
+                key={p.num}
+                href={p.href}
+                className="path-card-img"
+                aria-label={p.title}
+              >
+                <MediaImage
+                  seed={p.seed}
+                  alt=""
+                  aspect="4 / 5"
+                  tone="red"
+                  width={900}
+                  height={1125}
+                />
+                <div className="path-card-img__overlay">
+                  <div className="path-card-img__top">
+                    <span className="mono path-card-img__num">{p.num}</span>
+                    <span className="mono path-card-img__eyebrow">{p.eyebrow}</span>
+                  </div>
+                  <div>
+                    <h3 className="display-sm path-card-img__title">{p.title}</h3>
+                    <p className="path-card-img__body">{p.body}</p>
+                    <div className="mono path-card-img__cta">{p.cta}</div>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
-          <style>{`
-            .paths-grid {
-              display: grid;
-              grid-template-columns: 1fr;
-              gap: 24px;
-            }
-            @media (min-width: 760px) { .paths-grid { grid-template-columns: repeat(3, 1fr); } }
-          `}</style>
         </div>
       </section>
 
-      {/* Joshua's Story Tease */}
+      {/* Joshua's Story Tease — real photo */}
       <section
         className="section surface-cream"
         style={{ position: 'relative', overflow: 'hidden' }}
       >
-        <HalftonePattern corner="top-right" size={300} opacity={0.3} />
+        <HalftonePattern corner="top-right" opacity={0.3} />
         <div className="wrap">
           <div className="story-grid">
-            <div
-              className="reveal"
-              style={{
-                aspectRatio: '4 / 5',
-                background: 'linear-gradient(135deg, var(--ink-90) 0%, var(--ink-60) 100%)',
-                position: 'relative',
-                overflow: 'hidden',
-                borderRadius: 4,
-              }}
-              aria-label="Photo of Joshua Villarreal — placeholder"
-            >
-              {/* PLACEHOLDER: Joshua portrait */}
-              <HalftonePattern corner="bottom-left" size={220} opacity={0.55} />
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: 24,
-                  left: 24,
-                  right: 24,
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 11,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: 'var(--ash-soft)',
-                }}
-              >
-                Photo · The PHHacility
-              </div>
-            </div>
+            <MediaImage
+              seed="sg-joshua-story"
+              alt="Joshua Villarreal training at The PHHacility"
+              aspect="4 / 5"
+              tone="red"
+            />
             <div>
               <KickerWithLines variant="ink">Meet Joshua</KickerWithLines>
               <h2 className="display-lg reveal" style={{ marginBottom: 24 }}>
@@ -168,21 +166,10 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          <style>{`
-            .story-grid {
-              display: grid;
-              grid-template-columns: 1fr;
-              gap: 48px;
-              align-items: center;
-            }
-            @media (min-width: 880px) {
-              .story-grid { grid-template-columns: 1fr 1.2fr; gap: 80px; }
-            }
-          `}</style>
         </div>
       </section>
 
-      {/* Ecosystem */}
+      {/* Ecosystem — image cards */}
       <section className="section surface-ink">
         <div className="wrap">
           <SectionHeader
@@ -190,29 +177,72 @@ export default function HomePage() {
             headline={<>More than training.</>}
             sub="Skilled Game is camps, club, apparel, and the Virtual Academy — all built around the same method."
           />
-          <div className="paths-grid">
-            <PathCard
-              eyebrow="Worldwide"
-              title="Global Camps"
-              body="Skilled Game Camps in 17 countries. Bring me to your city, or join a tour stop."
-              href="/camps"
-              cta="See Camps →"
-            />
-            <PathCard
-              eyebrow="Phoenix"
-              title="SGB Club"
-              body="Phoenix-based youth club teams. Under Armour Next Boys Hoops affiliated. 2030, 2031, 2032 boys."
-              href="https://www.skilledgamebasketball.com/sgb-club"
-              external
-              cta="SGB Club →"
-            />
-            <PathCard
-              eyebrow="Apparel"
-              title="The Apparel"
-              body="Wear what we wear. Premium training gear built for the work. Be Better. Be Different."
-              href="/shop"
-              cta="Shop The Drop →"
-            />
+          <div className="paths-grid paths-grid--with-img">
+            {[
+              {
+                title: 'Global Camps',
+                eyebrow: 'Worldwide',
+                body: 'Skilled Game Camps in 17 countries. Bring me to your city, or join a tour stop.',
+                href: '/camps',
+                cta: 'See Camps →',
+                seed: 'sg-eco-camps',
+              },
+              {
+                title: 'SGB Club',
+                eyebrow: 'Phoenix',
+                body: 'Phoenix-based youth club teams. Under Armour Next Boys Hoops affiliated. 2030, 2031, 2032 boys.',
+                href: 'https://www.skilledgamebasketball.com/sgb-club',
+                cta: 'SGB Club →',
+                seed: 'sg-eco-club',
+                external: true,
+              },
+              {
+                title: 'The Apparel',
+                eyebrow: 'Apparel',
+                body: 'Wear what we wear. Premium training gear built for the work.',
+                href: '/shop',
+                cta: 'Shop The Drop →',
+                seed: 'sg-eco-apparel',
+              },
+            ].map((p) => {
+              const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) =>
+                p.external ? (
+                  <a
+                    href={p.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="path-card-img"
+                  >
+                    {children}
+                  </a>
+                ) : (
+                  <Link href={p.href} className="path-card-img">
+                    {children}
+                  </Link>
+                );
+              return (
+                <Wrapper key={p.title}>
+                  <MediaImage
+                    seed={p.seed}
+                    alt=""
+                    aspect="4 / 5"
+                    tone="duotone"
+                    width={900}
+                    height={1125}
+                  />
+                  <div className="path-card-img__overlay">
+                    <div className="path-card-img__top">
+                      <span className="mono path-card-img__eyebrow">{p.eyebrow}</span>
+                    </div>
+                    <div>
+                      <h3 className="display-sm path-card-img__title">{p.title}</h3>
+                      <p className="path-card-img__body">{p.body}</p>
+                      <div className="mono path-card-img__cta">{p.cta}</div>
+                    </div>
+                  </div>
+                </Wrapper>
+              );
+            })}
           </div>
         </div>
       </section>

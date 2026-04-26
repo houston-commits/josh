@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import KickerWithLines from './KickerWithLines';
 import HalftonePattern from './HalftonePattern';
@@ -8,7 +9,8 @@ type Corner = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 type Props = {
   kicker: string;
-  headline: ReactNode;
+  /** Lines render as separate stacked blocks. Pass an array for line-by-line stagger. */
+  headline: ReactNode | ReactNode[];
   sub?: ReactNode;
   trustLine?: ReactNode;
   primaryCta?: Cta;
@@ -18,6 +20,10 @@ type Props = {
   halftoneCorners?: Corner[];
   variant?: 'ink' | 'cream';
   size?: 'lg' | 'xl';
+  /** Picsum seed for the hero background */
+  bgSeed?: string;
+  /** Set false to hide the bg image (useful for the lighter About hero) */
+  withBg?: boolean;
 };
 
 export default function PageHero({
@@ -32,62 +38,85 @@ export default function PageHero({
   halftoneCorners = ['top-left'],
   variant = 'ink',
   size = 'xl',
+  bgSeed,
+  withBg = true,
 }: Props) {
   const isInk = variant === 'ink';
+  const lines = Array.isArray(headline) ? headline : [headline];
+
   return (
     <section
-      className={`hero-on-load ${isInk ? 'surface-ink' : 'surface-cream'}`}
-      style={{
-        minHeight: '100svh',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        paddingTop: 120,
-        paddingBottom: 72,
-      }}
+      className={`hero hero-on-load ${isInk ? 'surface-ink' : 'surface-cream'}`}
+      style={{ position: 'relative', overflow: 'hidden' }}
     >
+      {withBg && bgSeed && isInk && (
+        <>
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 0,
+            }}
+          >
+            <Image
+              src={`https://picsum.photos/seed/${encodeURIComponent(bgSeed)}/1920/1200`}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              style={{
+                objectFit: 'cover',
+                filter: 'grayscale(0.85) contrast(1.25) brightness(0.45)',
+              }}
+            />
+          </div>
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 1,
+              background:
+                'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.4) 35%, rgba(0,0,0,0.85) 100%), radial-gradient(ellipse at 75% 25%, rgba(176,16,29,0.45) 0%, rgba(176,16,29,0) 55%)',
+            }}
+          />
+        </>
+      )}
+
       {halftoneCorners.map((c) => (
         <HalftonePattern
           key={c}
           corner={c}
-          size={360}
-          opacity={isInk ? 0.55 : 0.35}
+          opacity={isInk ? 0.55 : 0.5}
           color="#b0101d"
         />
       ))}
 
-      <div className="wrap" style={{ position: 'relative', width: '100%' }}>
+      <div
+        className="wrap hero__content"
+        style={{ position: 'relative', zIndex: 2, width: '100%' }}
+      >
         <KickerWithLines variant={isInk ? 'cream' : 'ink'}>{kicker}</KickerWithLines>
 
         <h1
-          className={size === 'xl' ? 'display-xl' : 'display-lg'}
-          style={{ marginBottom: 32, maxWidth: '17ch' }}
+          className={`hero__headline ${size === 'xl' ? 'hero__headline--xl' : 'hero__headline--lg'}`}
         >
-          {headline}
+          {lines.map((line, i) => (
+            <span key={i} className={`hero-line hero-line--d${i + 1}`}>
+              <span>{line}</span>
+            </span>
+          ))}
         </h1>
 
-        {sub && (
-          <p
-            className="reveal"
-            style={{
-              fontSize: 'clamp(17px, 1.4vw, 21px)',
-              lineHeight: 1.5,
-              maxWidth: '54ch',
-              color: isInk ? 'var(--cream)' : 'var(--ink-80)',
-              marginBottom: 28,
-            }}
-          >
-            {sub}
-          </p>
-        )}
+        {sub && <p className="hero__sub reveal">{sub}</p>}
 
         {trustLine && (
           <p
             className="reveal eyebrow"
             style={{
               color: isInk ? 'var(--ash-soft)' : 'var(--ash)',
-              marginBottom: 32,
+              marginBottom: 28,
             }}
           >
             {trustLine}
@@ -95,19 +124,16 @@ export default function PageHero({
         )}
 
         {(primaryCta || secondaryCta) && (
-          <div
-            className="reveal"
-            style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}
-          >
+          <div className="hero__ctas reveal">
             {primaryCta && (
-              <Link href={primaryCta.href} className="btn btn-red">
+              <Link href={primaryCta.href} className="btn btn-red btn-lg">
                 {primaryCta.label}
               </Link>
             )}
             {secondaryCta && (
               <Link
                 href={secondaryCta.href}
-                className={isInk ? 'btn btn-ghost' : 'btn btn-ghost-ink'}
+                className={isInk ? 'btn btn-ghost btn-lg' : 'btn btn-ghost-ink btn-lg'}
               >
                 {secondaryCta.label}
               </Link>
@@ -117,15 +143,8 @@ export default function PageHero({
 
         {bottomLeftBadge && (
           <div
-            className="reveal"
+            className="reveal hero__badge"
             style={{
-              position: 'absolute',
-              left: 0,
-              bottom: -32,
-              fontFamily: 'var(--font-mono)',
-              fontSize: 11,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
               color: isInk ? 'var(--ash-soft)' : 'var(--ash)',
             }}
           >
@@ -135,13 +154,8 @@ export default function PageHero({
 
         {faithMark && (
           <div
+            className="hero__faith"
             style={{
-              position: 'absolute',
-              right: 0,
-              bottom: -32,
-              fontFamily: 'var(--font-mono)',
-              fontSize: 11,
-              letterSpacing: '0.25em',
               color: isInk ? 'var(--ash-soft)' : 'var(--ash)',
             }}
           >
