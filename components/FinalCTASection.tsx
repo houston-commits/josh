@@ -30,7 +30,7 @@ export default function FinalCTASection({
         borderTop: '1px solid var(--hairline)',
       }}
     >
-      <HalftonePattern corner={halftoneCorner} size={420} opacity={0.45} />
+      <HalftonePattern corner={halftoneCorner} opacity={0.45} />
       <div className="wrap" style={{ position: 'relative' }}>
         <h2 className="display-xl reveal" style={{ maxWidth: '15ch', marginBottom: 28 }}>
           {headline}

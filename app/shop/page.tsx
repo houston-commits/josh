@@ -7,6 +7,7 @@ import KickerWithLines from '@/components/KickerWithLines';
 import HalftonePattern from '@/components/HalftonePattern';
 import FinalCTASection from '@/components/FinalCTASection';
 import PullQuoteSection from '@/components/PullQuoteSection';
+import MediaImage from '@/components/MediaImage';
 
 export const metadata: Metadata = {
   title: 'Skilled Game Apparel — Be Better. Be Different.',
@@ -31,21 +32,17 @@ export default function ShopPage() {
     <>
       <PageHero
         kicker="Skilled Game Apparel"
-        headline={
+        headline={[
+          'Be Better.',
           <>
-            <span className="hero-word hero-word--d1">
-              <span>Be Better.</span>
-            </span>
-            <br />
-            <span className="hero-word hero-word--d2">
-              <span>Be Different.</span>
-            </span>
-          </>
-        }
+            Be <em>Different.</em>
+          </>,
+        ]}
         sub="Wear what we wear. Premium training apparel built for the work. Worn at The PHHacility, in 17 countries, by every pro I’ve trained."
         primaryCta={{ href: externalShop, label: 'Shop The Drop →' }}
         secondaryCta={{ href: '#waitlist', label: 'Drop Waitlist ↓' }}
         halftoneCorners={['bottom-left']}
+        bgSeed="sg-shop-hero-2"
       />
 
       {/* Drop Waitlist */}
@@ -63,7 +60,7 @@ export default function ShopPage() {
         className="section surface-cream"
         style={{ position: 'relative', overflow: 'hidden' }}
       >
-        <HalftonePattern corner="top-right" size={260} opacity={0.3} />
+        <HalftonePattern corner="top-right" opacity={0.3} />
         <div className="wrap">
           <SectionHeader
             kicker="Featured"
@@ -72,7 +69,7 @@ export default function ShopPage() {
             variant="cream"
           />
           <div className="product-grid reveal-stagger">
-            {products.map((p) => (
+            {products.map((p, i) => (
               <Link
                 key={p.name}
                 href={externalShop}
@@ -86,42 +83,20 @@ export default function ShopPage() {
                     background: 'var(--white)',
                     borderRadius: 4,
                     overflow: 'hidden',
-                    transition: 'transform 0.3s var(--ease-out), border-color 0.3s var(--ease-out)',
                   }}
                   className="product-card"
                 >
+                  <MediaImage
+                    seed={`sg-product-${i}`}
+                    alt={p.name}
+                    aspect="4 / 5"
+                    tone="ink"
+                    width={800}
+                    height={1000}
+                  />
                   <div
                     style={{
-                      aspectRatio: '4 / 5',
-                      background: 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)',
-                      position: 'relative',
-                      overflow: 'hidden',
-                    }}
-                    aria-label={`${p.name} — placeholder`}
-                  >
-                    {/* PLACEHOLDER product photo */}
-                    <div
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(40px, 6vw, 64px)',
-                        color: 'rgba(176, 16, 29, 0.25)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.04em',
-                        textAlign: 'center',
-                        padding: 16,
-                      }}
-                    >
-                      SG
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      padding: '20px 22px',
+                      padding: '18px 20px',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
@@ -130,7 +105,7 @@ export default function ShopPage() {
                   >
                     <h3
                       className="display-sm"
-                      style={{ fontSize: 18, color: 'var(--ink)', letterSpacing: '0.02em' }}
+                      style={{ fontSize: 17, color: 'var(--ink)', letterSpacing: '0.02em' }}
                     >
                       {p.name}
                     </h3>
@@ -143,7 +118,7 @@ export default function ShopPage() {
                   </div>
                   <div
                     style={{
-                      padding: '0 22px 20px',
+                      padding: '0 20px 18px',
                       fontFamily: 'var(--font-mono)',
                       fontSize: 11,
                       letterSpacing: '0.18em',
@@ -199,20 +174,12 @@ export default function ShopPage() {
                 same standard I train at.
               </p>
             </div>
-            <div
-              className="reveal"
-              style={{
-                aspectRatio: '4 / 5',
-                background: 'linear-gradient(135deg, var(--ink-90) 0%, var(--ink-60) 100%)',
-                position: 'relative',
-                borderRadius: 4,
-                overflow: 'hidden',
-              }}
-              aria-label="Gear lifestyle photo placeholder"
-            >
-              <HalftonePattern corner="bottom-right" size={240} opacity={0.55} />
-              {/* PLACEHOLDER gear lifestyle photo */}
-            </div>
+            <MediaImage
+              seed="sg-shop-lifestyle"
+              alt="Skilled Game gear at The PHHacility"
+              aspect="4 / 5"
+              tone="red"
+            />
           </div>
           <style>{`
             .story-grid {

@@ -6,6 +6,7 @@ import KickerWithLines from '@/components/KickerWithLines';
 import HalftonePattern from '@/components/HalftonePattern';
 import InquiryForm from '@/components/InquiryForm';
 import FinalCTASection from '@/components/FinalCTASection';
+import MediaImage from '@/components/MediaImage';
 
 export const metadata: Metadata = {
   title: 'Skilled Game Camps — 17 Countries · Skilled Game Basketball',
@@ -66,26 +67,22 @@ export default function CampsPage() {
     <>
       <PageHero
         kicker="17 Countries · 5 Continents"
-        headline={
+        headline={[
+          'Skilled Game',
           <>
-            <span className="hero-word hero-word--d1">
-              <span>Skilled Game</span>
-            </span>
-            <br />
-            <span className="hero-word hero-word--d2">
-              <span>Camps.</span>
-            </span>
-          </>
-        }
+            <em>Camps.</em>
+          </>,
+        ]}
         sub="I’ve been running camps internationally since 2018. Thousands of players, trainers, and coaches in 17 countries have experienced the Skilled Game method. Join a stop on the next tour — or bring me to your city."
         primaryCta={{ href: '#upcoming', label: 'See Upcoming Camps →' }}
         secondaryCta={{ href: '#host', label: 'Host a Camp ↓' }}
         halftoneCorners={['top-left']}
+        bgSeed="sg-camps-hero-2"
       />
 
       {/* Country Roster */}
       <section className="section surface-cream" style={{ position: 'relative', overflow: 'hidden' }}>
-        <HalftonePattern corner="top-right" size={260} opacity={0.3} />
+        <HalftonePattern corner="top-right" opacity={0.3} />
         <div className="wrap">
           <SectionHeader
             kicker="Where I've Been"
@@ -159,43 +156,60 @@ export default function CampsPage() {
           />
 
           <div className="upcoming-grid reveal-stagger">
-            {upcoming.map((c) => (
+            {upcoming.map((c, i) => (
               <article
                 key={c.location}
                 style={{
                   border: '1px solid var(--hairline)',
                   background: 'var(--ink-80)',
-                  padding: 28,
                   borderRadius: 4,
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 14,
+                  overflow: 'hidden',
                 }}
               >
+                <MediaImage
+                  seed={`sg-camp-${i}`}
+                  alt={c.location}
+                  aspect="16 / 10"
+                  tone="duotone"
+                  width={800}
+                  height={500}
+                />
                 <div
-                  className="mono"
                   style={{
-                    fontSize: 11,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    color: 'var(--red-bright)',
+                    padding: 24,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 12,
+                    flex: 1,
                   }}
                 >
-                  {c.dates}
+                  <div
+                    className="mono"
+                    style={{
+                      fontSize: 11,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      color: 'var(--red-bright)',
+                    }}
+                  >
+                    {c.dates}
+                  </div>
+                  <h3 className="display-sm" style={{ fontSize: 'clamp(20px, 2vw, 26px)' }}>
+                    {c.location}
+                  </h3>
+                  <p style={{ color: 'var(--ash-soft)', fontSize: 14, flex: 1 }}>{c.partner}</p>
+                  <Link
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-ghost btn-sm"
+                    style={{ alignSelf: 'flex-start' }}
+                  >
+                    Register →
+                  </Link>
                 </div>
-                <h3 className="display-sm" style={{ fontSize: 'clamp(22px, 2vw, 28px)' }}>
-                  {c.location}
-                </h3>
-                <p style={{ color: 'var(--ash-soft)', fontSize: 15, flex: 1 }}>{c.partner}</p>
-                <Link
-                  href={c.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-ghost btn-sm"
-                  style={{ alignSelf: 'flex-start' }}
-                >
-                  Register →
-                </Link>
               </article>
             ))}
           </div>
@@ -289,7 +303,7 @@ export default function CampsPage() {
         className="section surface-ink"
         style={{ position: 'relative', overflow: 'hidden' }}
       >
-        <HalftonePattern corner="bottom-left" size={300} opacity={0.4} />
+        <HalftonePattern corner="bottom-left" opacity={0.4} />
         <div className="wrap" style={{ maxWidth: 980 }}>
           <KickerWithLines>Bring Me to Your City</KickerWithLines>
           <h2 className="display-lg reveal" style={{ marginBottom: 20 }}>
