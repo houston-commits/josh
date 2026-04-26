@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import KickerWithLines from './KickerWithLines';
 import HalftonePattern from './HalftonePattern';
@@ -20,10 +19,18 @@ type Props = {
   halftoneCorners?: Corner[];
   variant?: 'ink' | 'cream';
   size?: 'lg' | 'xl';
-  /** Picsum seed for the hero background */
+  /** Optional accent — controls which corner the red radial glow originates from. */
+  glowCorner?: 'tr' | 'tl' | 'br' | 'bl';
+  /** No-op kept for backwards compatibility with the old API. */
   bgSeed?: string;
-  /** Set false to hide the bg image (useful for the lighter About hero) */
   withBg?: boolean;
+};
+
+const glowMap: Record<NonNullable<Props['glowCorner']>, string> = {
+  tr: 'radial-gradient(ellipse 90% 80% at 90% 0%, rgba(199, 18, 30, 0.55) 0%, rgba(199, 18, 30, 0.18) 30%, rgba(0,0,0,0) 60%)',
+  tl: 'radial-gradient(ellipse 90% 80% at 10% 0%, rgba(199, 18, 30, 0.55) 0%, rgba(199, 18, 30, 0.18) 30%, rgba(0,0,0,0) 60%)',
+  br: 'radial-gradient(ellipse 90% 80% at 90% 100%, rgba(199, 18, 30, 0.5) 0%, rgba(199, 18, 30, 0.16) 30%, rgba(0,0,0,0) 60%)',
+  bl: 'radial-gradient(ellipse 90% 80% at 10% 100%, rgba(199, 18, 30, 0.5) 0%, rgba(199, 18, 30, 0.16) 30%, rgba(0,0,0,0) 60%)',
 };
 
 export default function PageHero({
@@ -38,8 +45,7 @@ export default function PageHero({
   halftoneCorners = ['top-left'],
   variant = 'ink',
   size = 'xl',
-  bgSeed,
-  withBg = true,
+  glowCorner = 'tr',
 }: Props) {
   const isInk = variant === 'ink';
   const lines = Array.isArray(headline) ? headline : [headline];
@@ -49,37 +55,50 @@ export default function PageHero({
       className={`hero hero-on-load ${isInk ? 'surface-ink' : 'surface-cream'}`}
       style={{ position: 'relative', overflow: 'hidden' }}
     >
-      {withBg && bgSeed && isInk && (
+      {isInk && (
         <>
+          {/* Base atmospheric layer — pure CSS, never fails */}
           <div
             aria-hidden
             style={{
               position: 'absolute',
               inset: 0,
               zIndex: 0,
+              background: `linear-gradient(180deg, var(--ink-90) 0%, var(--ink-80) 40%, var(--ink-90) 100%)`,
             }}
-          >
-            <Image
-              src={`https://picsum.photos/seed/${encodeURIComponent(bgSeed)}/1920/1200`}
-              alt=""
-              fill
-              priority
-              unoptimized
-              sizes="100vw"
-              style={{
-                objectFit: 'cover',
-                filter: 'grayscale(0.85) contrast(1.25) brightness(0.45)',
-              }}
-            />
-          </div>
+          />
+          {/* Red radial accent */}
           <div
             aria-hidden
             style={{
               position: 'absolute',
               inset: 0,
-              zIndex: 1,
+              zIndex: 0,
+              background: glowMap[glowCorner],
+              mixBlendMode: 'screen',
+            }}
+          />
+          {/* Diagonal hairline texture */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 0,
+              opacity: 0.08,
+              backgroundImage:
+                'repeating-linear-gradient(135deg, rgba(255,255,255,0.18) 0px, rgba(255,255,255,0.18) 1px, transparent 1px, transparent 6px)',
+            }}
+          />
+          {/* Bottom darken */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 0,
               background:
-                'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.4) 35%, rgba(0,0,0,0.85) 100%), radial-gradient(ellipse at 75% 25%, rgba(176,16,29,0.45) 0%, rgba(176,16,29,0) 55%)',
+                'linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 100%)',
             }}
           />
         </>
@@ -89,7 +108,7 @@ export default function PageHero({
         <HalftonePattern
           key={c}
           corner={c}
-          opacity={isInk ? 0.55 : 0.5}
+          opacity={isInk ? 0.65 : 0.5}
           color="#b0101d"
         />
       ))}
