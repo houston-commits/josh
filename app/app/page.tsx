@@ -68,22 +68,18 @@ export default function AppPage() {
     <>
       <PageHero
         kicker="The Skilled Game App"
-        headline={
+        headline={[
+          'Train with me',
           <>
-            <span className="hero-word hero-word--d1">
-              <span>Train with me</span>
-            </span>
-            <br />
-            <span className="hero-word hero-word--d2">
-              <span>in your pocket.</span>
-            </span>
-          </>
-        }
+            <em>in your pocket.</em>
+          </>,
+        ]}
         sub="Weekly programming. Drill library. Film breakdowns. The same work I run with my pros, scaled for your level. Available worldwide."
         trustLine="First 7 Days Free · Cancel Anytime · Worldwide"
         primaryCta={{ href: '#pricing', label: 'Start Free Trial →' }}
         secondaryCta={{ href: '#features', label: 'Watch Sample ↓' }}
         halftoneCorners={['bottom-right']}
+        bgSeed="sg-app-hero-3"
       />
 
       {/* Features */}
@@ -143,8 +139,8 @@ export default function AppPage() {
         className="section surface-ink"
         style={{ position: 'relative', overflow: 'hidden' }}
       >
-        <HalftonePattern corner="top-right" size={300} opacity={0.4} />
-        <HalftonePattern corner="bottom-left" size={300} opacity={0.4} />
+        <HalftonePattern corner="top-right" opacity={0.4} />
+        <HalftonePattern corner="bottom-left" opacity={0.4} />
         <div className="wrap" style={{ maxWidth: 720, textAlign: 'center', position: 'relative' }}>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <KickerWithLines>One Membership</KickerWithLines>

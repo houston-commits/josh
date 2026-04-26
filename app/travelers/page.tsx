@@ -21,13 +21,14 @@ export default function TravelersPage() {
     <>
       <PageHero
         kicker="The Travelers Program"
-        headline={
+        headline={[
           <>
             Fly to <em>Phoenix.</em>
-            <br />
+          </>,
+          <>
             Train at <em>The PHHacility.</em>
-          </>
-        }
+          </>,
+        ]}
         sub="The Travelers Program is for serious players who don’t live in Phoenix. Fly to me. Train one-on-one for 3, 5, or 7 days at The PHHacility — the same floor where I work my pros."
         trustLine="By Application · 6th Grade & Up · Intermediate to Advanced"
         primaryCta={{ href: '#apply', label: 'Apply to Travel →' }}
@@ -35,6 +36,7 @@ export default function TravelersPage() {
         bottomLeftBadge="20+ NBA · 17 COUNTRIES · 11 YEARS"
         faithMark
         halftoneCorners={['top-left']}
+        bgSeed="sg-trav-hero-4"
       />
 
       {/* How it works */}

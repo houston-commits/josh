@@ -15,22 +15,16 @@ export default function ContactPage() {
     <>
       <PageHero
         kicker="Connect"
-        headline={
+        headline={[
           <>
-            <span className="hero-word hero-word--d1">
-              <span>Let’s</span>
-            </span>{' '}
-            <span className="hero-word hero-word--d2">
-              <span>
-                <em>Work.</em>
-              </span>
-            </span>
-          </>
-        }
+            Let’s <em>Work.</em>
+          </>,
+        ]}
         sub="Whatever brings you here, I’ll route you right. I read every inquiry personally."
         faithMark
         halftoneCorners={['top-left']}
         size="lg"
+        bgSeed="sg-contact-hero-2"
       />
 
       <ContactRouter />
@@ -40,7 +34,7 @@ export default function ContactPage() {
         className="section surface-cream"
         style={{ position: 'relative', overflow: 'hidden' }}
       >
-        <HalftonePattern corner="top-right" size={260} opacity={0.3} />
+        <HalftonePattern corner="top-right" opacity={0.3} />
         <div className="wrap">
           <KickerWithLines variant="ink">Direct</KickerWithLines>
           <h2 className="display-md reveal" style={{ marginBottom: 48 }}>

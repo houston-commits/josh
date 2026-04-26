@@ -7,6 +7,7 @@ import FAQ from '@/components/FAQ';
 import FinalCTASection from '@/components/FinalCTASection';
 import KickerWithLines from '@/components/KickerWithLines';
 import HalftonePattern from '@/components/HalftonePattern';
+import MediaImage from '@/components/MediaImage';
 
 export const metadata: Metadata = {
   title: 'Train at The PHHacility — Phoenix, AZ · Skilled Game Basketball',
@@ -27,22 +28,18 @@ export default function TrainPage() {
     <>
       <PageHero
         kicker="Phoenix, AZ · The PHHacility"
-        headline={
+        headline={[
+          'Train at',
           <>
-            <span className="hero-word hero-word--d1">
-              <span>Train at</span>
-            </span>
-            <br />
-            <span className="hero-word hero-word--d2">
-              <span>The PHHacility.</span>
-            </span>
-          </>
-        }
+            The <em>PHHacility.</em>
+          </>,
+        ]}
         sub="Memberships, packages, drop-ins. Train weekly with Joshua and the Skilled Game team. Phoenix, Arizona."
         trustLine="For Intermediate to Advanced Players · 6th Grade & Up"
         primaryCta={{ href: '#tiers', label: 'Sign Up for Training →' }}
         secondaryCta={{ href: '#booking', label: 'Open Calendar ↓' }}
         halftoneCorners={['top-left']}
+        bgSeed="sg-train-hero-2"
       />
 
       {/* Three Tiers */}
@@ -152,7 +149,7 @@ export default function TrainPage() {
         className="section surface-cream"
         style={{ position: 'relative', overflow: 'hidden' }}
       >
-        <HalftonePattern corner="top-right" size={260} opacity={0.3} />
+        <HalftonePattern corner="top-right" opacity={0.3} />
         <div className="wrap">
           <SectionHeader
             kicker="The Facility"
@@ -164,32 +161,16 @@ export default function TrainPage() {
             {[1, 2, 3, 4, 5, 6].map((n) => (
               <div
                 key={n}
-                aria-label={`Facility photo ${n} — placeholder`}
-                style={{
-                  aspectRatio: n % 3 === 0 ? '4 / 5' : '1 / 1',
-                  background:
-                    'linear-gradient(135deg, var(--ink-90) 0%, var(--ink-60) 100%)',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  borderRadius: 4,
-                  gridColumn: n === 1 ? 'span 2' : 'span 1',
-                }}
+                style={{ gridColumn: n === 1 ? 'span 2' : 'span 1' }}
               >
-                {/* PLACEHOLDER facility photo */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: 14,
-                    left: 14,
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 10,
-                    letterSpacing: '0.18em',
-                    color: 'var(--ash-soft)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  PHH · 0{n}
-                </div>
+                <MediaImage
+                  seed={`sg-phh-${n}`}
+                  alt={`Inside The PHHacility — frame ${n}`}
+                  aspect={n === 1 ? '16 / 10' : n % 3 === 0 ? '4 / 5' : '1 / 1'}
+                  tone={n % 2 === 0 ? 'red' : 'duotone'}
+                  width={n === 1 ? 1600 : 800}
+                  height={n === 1 ? 1000 : n % 3 === 0 ? 1000 : 800}
+                />
               </div>
             ))}
           </div>
