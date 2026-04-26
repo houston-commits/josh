@@ -71,6 +71,7 @@ export default function MediaImage({
         fill
         sizes="(max-width: 720px) 100vw, (max-width: 1200px) 50vw, 800px"
         priority={priority}
+        unoptimized
         style={{
           objectFit: 'cover',
           filter: filters[tone],

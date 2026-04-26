@@ -64,6 +64,7 @@ export default function PageHero({
               alt=""
               fill
               priority
+              unoptimized
               sizes="100vw"
               style={{
                 objectFit: 'cover',
